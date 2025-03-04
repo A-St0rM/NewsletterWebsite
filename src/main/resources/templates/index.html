@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<title>Frontpage</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/> <!--favicon-->
-<link rel="icon" type="image/png" href="../public/css/images/images/logo_background.png">
+<head>
+    <title>Frontpage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/> <!--favicon-->
+    <link rel="icon" type="image/png" href="../public/images/logo_background.png">
+    <link rel="stylesheet" href="public/css/styles.css"/>
 </head>
 
 <body>
@@ -16,7 +18,10 @@
 
 <h3>Hvad siger du? h3</h3>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquid, amet architecto beatae cupiditate debitis ducimus et ipsa itaque, iure magni maiores necessitatibus, nobis perspiciatis sit temporibus ut veritatis voluptatibus.</p>
+<p class="greenText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquid, amet architecto beatae
+    cupiditate debitis
+    ducimus et ipsa itaque, iure magni maiores necessitatibus, nobis perspiciatis sit temporibus ut veritatis
+    voluptatibus.</p>
 <br> <!-- mellemrum-->
 <hr> <!-- linje-->
 
@@ -34,8 +39,26 @@
 <br>
 
 <a href="https://www.google.dk/?hl=da" target="_blank">
-<img src="../public/css/images/images/logo_background.png" height="200" alt="Description of your image">
+    <img src="../public/images/logo_background.png" height="200" alt="Description of your image">
 </a>
+
+
+<h2>Text input fields</h2>
+
+
+<form>
+    <div class="login medium-padding">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="John"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value="Doe">
+        <button class="button">Login</button>
+        <br>
+    </div>
+</form>
+
+
+</form>
 
 
 </body>
