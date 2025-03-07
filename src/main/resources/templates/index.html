@@ -11,54 +11,61 @@
 </head>
 
 <body>
+<div class="header">
 
-<h1>Welcome to the Javalin / Thymeleaf demo</h1>
-
-<h2>Hejsa h2</h2>
-
-<h3>Hvad siger du? h3</h3>
-
-<p class="greenText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquid, amet architecto beatae
-    cupiditate debitis
-    ducimus et ipsa itaque, iure magni maiores necessitatibus, nobis perspiciatis sit temporibus ut veritatis
-    voluptatibus.</p>
-<br> <!-- mellemrum-->
-<hr> <!-- linje-->
-
-<a href="https://www.youtube.com/" target="_blank" title="youtube.com">
-    Click me
-</a>
-<br>
-<a href="another_site.html">
-    Another Site
-</a>
-<br>
-<a href="mailto:Alissaalidib@hotmail.com">
-    Email Me
-</a>
-<br>
-
-<a href="https://www.google.dk/?hl=da" target="_blank">
-    <img src="../public/images/logo_background.png" height="200" alt="Description of your image">
-</a>
-
-
-<h2>Text input fields</h2>
-
-
-<form>
-    <div class="login medium-padding">
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname" value="John"><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname" value="Doe">
-        <button class="button">Login</button>
-        <br>
+    <div class="image-logo">
+        <img src="../public/images/cph-hvid.webp" height="100">
     </div>
-</form>
+
+    <div class="buttons-header">
+        <a href="signIn.html">
+            <button>Sign in</button>
+        </a>
+
+        <a href="archives.html" target="_blank">
+            <button>Archive</button>
+        </a>
+
+    </div>
+</div>
 
 
-</form>
+<!-- <h1>Nyhedsbrev</h1> -->
+
+<div class="main-newsletter">
+
+    <div class="main-newsletter-item">
+        <a href="../public/pdf/06_Nyhedsbrev_FebMar_2025.pdf" target="_blank">
+            <img src="../public/images/nyhedsbrev.png" height="600" alt="Open PDF">
+        </a>
+
+        <p>Praktiksøgning - Feb-Mar 2025</p>
+    </div>
+
+</div>
+
+<div class="secondary-newsletter">
+    <div class="secondary-newsletter-items">
+        <div class="newsletter-item">
+            <a>
+                <img src="../public/images/nyhedsbrev.png" height="450">
+            </a>
+            <p class="newsletter-title">Titel - bla bla</p>
+        </div>
+
+        <div class="newsletter-item">
+            <a>
+                <img src="../public/images/nyhedsbrev - Dec-Jan.png" height="450">
+            </a>
+            <p class="newsletter-title">Titel - bla bla</p>
+        </div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <p>&copy; 2025 Cphbusiness. All Rights Reserved.</p>
+</footer>
 
 
 </body>

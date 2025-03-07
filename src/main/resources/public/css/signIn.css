@@ -1,0 +1,11 @@
+.header {
+    /* TODO: remove the padding from the top and bottom footer  */
+    width: 100%;
+    height: 100px;
+    background-color: #002E6D;
+    border: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
