@@ -10,56 +10,61 @@ import java.sql.SQLException;
 
 public class AdminRepo {
 
-    private final DatabaseConnecter databaseConnecter;
+    public static Admin login(String userName, String password, ConnectionPool connectionPool) throws DatabaseException
+    {
+        String sql = "SELECT * FROM admins WHERE username=? AND password=?";
 
-    // Constructor injection of DatabaseConnecter
-    public AdminRepo(DatabaseConnecter databaseConnecter) {
-        this.databaseConnecter = databaseConnecter;
-    }
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setString(1, userName);
+            ps.setString(2, password);
 
-    public void addAdmin(Admin admin) throws DatabaseException {
-        String query = "INSERT INTO admins (userName, password) VALUES (?, ?)";
-        try (Connection connection = databaseConnecter.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setString(1, admin.getUserName());
-            preparedStatement.setString(2, admin.getPassword());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseException("Could not add admin: " + e.getMessage());
-        }
-    }
-
-    public boolean deleteAdmin(int id) throws DatabaseException {
-        String query = "DELETE FROM admins WHERE admin_id = ?";
-        boolean result = false;
-        try (Connection connection = databaseConnecter.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setInt(1, id);
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected == 1) {
-                result = true;
-            } else {
-                throw new DatabaseException("No admin found with ID: " + id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next())
+            {
+                int id = rs.getInt("user_id");
+                String role = rs.getString("role");
+                return new Admin(id, userName, password);
+            } else
+            {
+                throw new DatabaseException("Fejl i login. Prøv igen");
             }
-        } catch (SQLException e) {
-            throw new DatabaseException("Could not delete admin with ID: " + e.getMessage());
         }
-        return result;
+        catch (SQLException e)
+        {
+            throw new DatabaseException("DB fejl", e.getMessage());
+        }
     }
 
-    public boolean validateAdmin(String username, String password) throws DatabaseException {
-        String query = "SELECT * FROM admins WHERE username = ? AND password = ?";
-        try (Connection connection = databaseConnecter.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+    public static void createAdmin(String userName, String password, ConnectionPool connectionPool) throws DatabaseException
+    {
+        String sql = "insert into users (username, password) values (?,?)";
 
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next(); // If record exists, login is valid
-        } catch (SQLException e) {
-            throw new DatabaseException("Could not validate admin: " + e.getMessage());
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)
+        )
+        {
+            ps.setString(1, userName);
+            ps.setString(2, password);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected != 1)
+            {
+                throw new DatabaseException("Fejl ved oprettelse af ny bruger");
+            }
+        }
+        catch (SQLException e)
+        {
+            String msg = "Der er sket en fejl. Prøv igen";
+            if (e.getMessage().startsWith("ERROR: duplicate key value "))
+            {
+                msg = "Brugernavnet findes allerede. Vælg et andet";
+            }
+            throw new DatabaseException(msg, e.getMessage());
         }
     }
 }

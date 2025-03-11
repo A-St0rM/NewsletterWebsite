@@ -2,47 +2,35 @@ package app.controller;
 
 import app.exceptions.DatabaseException;
 import app.model.Admin;
+import app.persistence.AdminRepo;
+import app.persistence.ConnectionPool;
 import app.service.AdminService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 public class AdminController {
 
-    private final AdminService adminService;
-
-    // Constructor injection of AdminService
-    public AdminController(Javalin app, AdminService adminService) {
-        this.adminService = adminService;
-        configureRoutes(app);
+    public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
+        app.post("login", ctx -> login(ctx, connectionPool));
     }
 
-    private void configureRoutes(Javalin app) {
-        app.post("/admin", this::addNewAdmin);
-        app.post("/admin/login", this::handleAdminLogin);
-    }
-
-    private void addNewAdmin(Context ctx) {
-        String username = ctx.formParam("username");
+    public static void login(Context ctx, ConnectionPool connectionPool) {
+        //Hent form parametre
+        String username = ctx.formParam("username"); // "username" og "password" skal stemme overens med navngivning af attributter i html-fil!
         String password = ctx.formParam("password");
-        Admin admin = new Admin(username, password);
+
+
+        //Check om bruger findes i DB
+        //Hvis ja: Send bruger videre til task-siden
         try {
-            adminService.addAdmin(admin);
-            ctx.status(201).json("{\"message\": \"Admin added successfully\"}");
+            Admin admin = AdminRepo.login(username, password, connectionPool);
+            ctx.sessionAttribute("currentUser", admin); //sørger for at man er logget på så længe browserens session er på
+            ctx.render("dashboard.html");
         } catch (DatabaseException e) {
-            ctx.status(500).json("{\"error\": \"" + e.getMessage() + "\"}");
+            //Hvis nej: Send tilbage til forside med fejl!
+            ctx.attribute("message", e.getMessage());
+            ctx.render("index.html");
         }
-    }
 
-    private void handleAdminLogin(Context ctx) {
-        String username = ctx.formParam("username");
-        String password = ctx.formParam("password");
-
-        boolean isAuthenticated = adminService.validateAdmin(username, password);
-
-        if (isAuthenticated) {
-            ctx.status(200).json("{\"message\": \"Login successful\"}");
-        } else {
-            ctx.status(401).json("{\"error\": \"Invalid credentials\"}");
-        }
     }
 }

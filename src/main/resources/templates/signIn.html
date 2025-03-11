@@ -16,55 +16,16 @@
 
 <h2>Sign in</h2>
 
-<form action="/admin/login" method="post" id="loginForm">
-    <div class="login medium-padding">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+<form method="post">
+    <!--Attributterne name = "username" og name = "password" sende med videre i formparametre, og skal bruge i vores UserController class -->
+    <input type="text" name="username" placeholder="Enter your username"/> <!-- placeholder er tekst der står i username feltet, og forsvinder ved første indtastning-->
+    <input type="password" name="password" placeholder="Enter your password"/> <!-- samme som ovenover, med tilføjelse af at indtastning bliver hemmeligholdt! -->
 
-        <button type="submit" class="button">Login</button>
-    </div>
+    <button type="submit" formaction="/login">Login</button>
+
+    <div><p th:text="${message}"></p></div>
 </form>
 
-<!-- Display feedback message -->
-<div id="responseMessage"></div>
-
-<script>
-    // Handle form submission and display feedback
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        // Send credentials as JSON via fetch
-        fetch('/admin/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-                username: username,
-                password: password
-            })
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    // Successful login
-                    document.getElementById('responseMessage').innerText = 'Login successful!';
-                    window.location.href = "/dashboard";  // Redirect to the dashboard page
-                } else {
-                    // Invalid credentials
-                    document.getElementById('responseMessage').innerText = 'Invalid credentials!';
-                }
-            })
-            .catch(error => {
-                document.getElementById('responseMessage').innerText = 'An error occurred!';
-                console.error('Error:', error);
-            });
-    });
-</script>
 
 </body>
 </html>
