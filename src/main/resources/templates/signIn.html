@@ -2,32 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
     <link rel="stylesheet" href="../public/css/signIn.css">
 </head>
 <body>
 
 <div class="header">
-
     <div class="image-logo">
         <img src="../public/images/cph-hvid.webp" height="100">
     </div>
-
 </div>
 
 <h2>Sign in</h2>
-<form>
+
+<form action="/admin/login" method="post" id="loginForm">
     <div class="login medium-padding">
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname" value="John"><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname" value="Doe">
-        <button class="button">Login</button>
-        <br>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit" class="button">Login</button>
     </div>
 </form>
 
-</form>
+<!-- Display feedback message -->
+<div id="responseMessage"></div>
+
+<script>
+    // Handle form submission and display feedback
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Send credentials as JSON via fetch
+        fetch('/admin/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                username: username,
+                password: password
+            })
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    // Successful login
+                    document.getElementById('responseMessage').innerText = 'Login successful!';
+                    window.location.href = "/dashboard";  // Redirect to the dashboard page
+                } else {
+                    // Invalid credentials
+                    document.getElementById('responseMessage').innerText = 'Invalid credentials!';
+                }
+            })
+            .catch(error => {
+                document.getElementById('responseMessage').innerText = 'An error occurred!';
+                console.error('Error:', error);
+            });
+    });
+</script>
 
 </body>
 </html>
