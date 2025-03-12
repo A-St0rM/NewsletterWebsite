@@ -49,6 +49,19 @@
     </div>
 </div>
 
+
+<div class="newsletter-signup">
+    <form th:action="@{/newsletter/signup}" method="post">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required>
+        <input class="button" type="submit" value="Tilmeld">
+    </form>
+
+    <p th:if="${message}" style="color: green;">[[${message}]]</p>
+    <p th:if="${error}" style="color: red;">[[${error}]]</p>
+</div>
+
+
 <footer class="footer">
     <p>&copy; 2025 Cphbusiness. All Rights Reserved.</p>
 </footer>
