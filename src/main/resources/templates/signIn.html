@@ -1,31 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="../public/css/signIn.css">
+    <link rel="stylesheet" href="../public/css/signIn.css" th:href="@{/css/signIn.css}"/>
 </head>
 <body>
 
 <div class="header">
     <div class="image-logo">
-        <img src="../public/images/cph-hvid.webp" height="100">
+        <img src="../public/images/cph-hvid.webp" th:src="@{/images/cph-hvid.webp}" height="100" alt="Logo"/>
     </div>
 </div>
 
-<h2>Sign in</h2>
 
-<form method="post">
-    <!--Attributterne name = "username" og name = "password" sende med videre i formparametre, og skal bruge i vores UserController class -->
-    <input type="text" name="username" placeholder="Enter your username"/> <!-- placeholder er tekst der står i username feltet, og forsvinder ved første indtastning-->
-    <input type="password" name="password" placeholder="Enter your password"/> <!-- samme som ovenover, med tilføjelse af at indtastning bliver hemmeligholdt! -->
 
-    <button type="submit" formaction="/login">Login</button>
+<div class="signIn-box">
+    <div class="signIn-items">
+        <h2>Sign in</h2>
+        <p th:if="${loginError}" class="error">Wrong user or password</p>
+        <form th:action="@{/login}" method="post">
+            <label for="username">Username</label>:
+            <input type="text" id="username" name="username" autofocus="autofocus"/><br/>
+            <label for="password">Password</label>:
+            <input type="password" id="password" name="password"/><br/>
+            <input class="button" type="submit" value="Log in"/>
+        </form>
+    </div>
 
-    <div><p th:text="${message}"></p></div>
-</form>
-
+</div>
 
 </body>
 </html>

@@ -1,13 +1,19 @@
 package app;
 
-import app.controller.AdminController;
-import app.persistence.ConnectionPool;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.models.Admin;
+import app.persistence.AdminRepo;
+import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 public class Main {
+
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     private static final String USER = "postgres";
     private static final String PASSWORD = "postgres";
@@ -29,6 +35,10 @@ public class Main {
 
         app.get("/", ctx -> ctx.render("index.html"));
         app.post("login", ctx -> ctx.render("dashboard.html"));
-        //AdminController.addRoutes(app, connectionPool);
+        app.get("/signIn", ctx -> ctx.render("signIn.html"));
+
+
+        List<Admin> admins = AdminRepo.getAlladmins(connectionPool);
+        admins.forEach(System.out::println);
     }
 }

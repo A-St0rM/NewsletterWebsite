@@ -1,4 +1,4 @@
-/* demo stylesheet */
+
 .header {
     /* TODO: remove the padding from the top and bottom footer  */
     width: 100%;
@@ -24,7 +24,7 @@
 
 }
 
-.buttons-header button {
+.buttons-header a {
     background-color: #FBB040;
     color: white;
     border: none;
@@ -37,7 +37,7 @@
     transition: background-color 0.3s ease;
 }
 
-.buttons-header button:hover {
+.buttons-header a:hover {
     background-color: #e09b35;
 }
 
