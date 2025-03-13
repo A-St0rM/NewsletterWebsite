@@ -26,7 +26,5 @@ public class SubscriberController {
         } catch (DatabaseException e) {
             ctx.sessionAttribute("error", "Noget gik galt. Prøv igen.");
         }
-
-        ctx.redirect("/");
     }
 }
