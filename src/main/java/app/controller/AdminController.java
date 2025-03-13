@@ -10,26 +10,39 @@ import java.util.List;
 
 public class AdminController {
 
-    public AdminController(){
+    private ConnectionPool connectionPool;
 
+    public AdminController(ConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
     }
 
-    public void SignInAsAdmin(Context ctx, ConnectionPool connectionPool) {
+    public void SignInAsAdmin(Context ctx) {
 
         String username = ctx.formParam("username");
         String password = ctx.formParam("password");
 
         Admin admin = new Admin(username, password);
 
-        try{
+        try {
             List<Admin> adminsList = AdminRepo.getAlladmins(connectionPool);
-            for(Admin a : adminsList){
-                if(a.getUsername().equals(admin.getUsername()) && a.getPassword().equals(admin.getPassword())){
+            boolean loginSuccess = false;
+
+            for (Admin a : adminsList) {
+                if (a.getUsername().equals(admin.getUsername()) && a.getPassword().equals(admin.getPassword())) {
                     ctx.render("dashboard.html");
+                    loginSuccess = true;
+                    break;
                 }
+            }
+
+            if (!loginSuccess) {
+                ctx.sessionAttribute("error", "Wrong username or password");
+                ctx.redirect("/signIn");
             }
         } catch (Exception e) {
             throw new DatabaseException("Failed to get admins from DB " + e);
         }
     }
+
 }
+

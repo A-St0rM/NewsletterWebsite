@@ -19,8 +19,8 @@
 <div class="signIn-box">
     <div class="signIn-items">
         <h2>Sign in</h2>
-        <p th:if="${loginError}" class="error">Wrong user or password</p>
-        <form th:action="@{/login}" method="post">
+        <p th:if="${error}" style="color: red;">[[${error}]]</p>
+        <form th:action="@{/admin/signIn}" method="post">
             <label for="username">Username</label>:
             <input type="text" id="username" name="username" autofocus="autofocus"/><br/>
             <label for="password">Password</label>:
