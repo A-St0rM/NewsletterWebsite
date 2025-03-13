@@ -10,8 +10,11 @@ import java.util.List;
 
 public class AdminController {
 
+    public AdminController(){
 
-    public Admin SignInAsAdmin(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
+    }
+
+    public void SignInAsAdmin(Context ctx, ConnectionPool connectionPool) {
 
         String username = ctx.formParam("username");
         String password = ctx.formParam("password");
@@ -28,7 +31,5 @@ public class AdminController {
         } catch (Exception e) {
             throw new DatabaseException("Failed to get admins from DB " + e);
         }
-        return admin;
     }
-
 }

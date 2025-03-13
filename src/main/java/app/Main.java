@@ -2,12 +2,11 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.controller.AdminController;
 import app.controller.SubscriberController;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
-
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class Main {
@@ -21,6 +20,7 @@ public class Main {
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
     private static final SubscriberController subscriberController = new SubscriberController();
+    private static final AdminController adminController = new AdminController();
 
     public static void main(String[] args) {
         // Initializing Javalin and Jetty webserver
@@ -44,5 +44,8 @@ public class Main {
         });
 
         app.post("/newsletter/signup", ctx -> subscriberController.signUp(ctx, connectionPool));
+        app.get("/admin/signIn", ctx -> ctx.render("/signIn.html"));
+        app.post("/admin/signIn", ctx -> adminController.SignInAsAdmin(ctx, connectionPool));
+
     }
 }
