@@ -114,3 +114,34 @@ input[type=text] {
 }
 
 
+.newsletter-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.newsletter {
+    width: 100%;
+    max-width: 280px;
+    border:1px solid silver;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content:stretch;
+}
+
+.teaser {
+    padding: 10px;
+    background-color: #FBB040;
+    color: black;
+    height: 100%;
+}
+
+.newsletter-title {
+    font-size: 1.25rem;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+

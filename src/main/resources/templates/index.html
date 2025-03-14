@@ -28,8 +28,8 @@
     <div class="newsletter-wrapper">
         <div class="newsletter" th:each="newsletter : ${newsletters}">
             <p class="newsletter-title" th:text="${newsletter.title}"></p>
-            <a th:href="@{'/files/' + ${newsletter.pdfFileName}}">
-                <img th:src="${'files/' + newsletter.thumbnailFileName}"/>
+            <a th:href="@{'/pdf/' + ${newsletter.pdfFileName}}">
+                <img th:src="${'pdf/' + newsletter.thumbnailFileName}"/>
             </a>
             <p class="teaser" th:text="${newsletter.teaserText}"></p>
         </div>
