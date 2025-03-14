@@ -1,0 +1,13 @@
+.add-newsletter-form {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+}
+
+.add-newsletter-form input, textarea {
+    width: 100%;
+    padding: 10px;
+}

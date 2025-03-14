@@ -5,6 +5,7 @@ import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
 import java.util.logging.Logger;
@@ -21,6 +22,7 @@ public class RoutingController {
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
     private static final SubscriberController subscriberController = new SubscriberController();
     private static final AdminController adminController = new AdminController(connectionPool);
+    private static final NewsletterController newsletterController = new NewsletterController(connectionPool);
 
 
     public static void initalizeRouting(){
@@ -28,6 +30,11 @@ public class RoutingController {
         // Initializing Javalin and Jetty webserver
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/pdf";   // Serve at http://localhost:7000/files
+                staticFiles.directory = "pdf";    // Serve from "files" folder in working directory
+                staticFiles.location = Location.EXTERNAL; // Load from outside the JAR
+            });
             config.jetty.modifyServletContextHandler(handler -> handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
@@ -48,6 +55,7 @@ public class RoutingController {
         //API Endpoints
         app.post("/newsletter/signup", ctx -> subscriberController.signUp(ctx, connectionPool));
         app.post("/admin/signIn", ctx -> adminController.SignInAsAdmin(ctx));
+        app.post("/admin/addNewsletter", ctx -> newsletterController.addNewsletter(ctx));
 
         //Web endpoints
         app.get("/signIn", ctx -> {
@@ -58,6 +66,7 @@ public class RoutingController {
 
         app.get("/archives", ctx -> ctx.render("archives.html"));
         app.get("/admin/signIn", ctx -> ctx.redirect("/signIn"));
+        app.get("/admin/addNewsletter", ctx -> ctx.render("dashboard.html"));
 
 
     }
