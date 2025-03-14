@@ -78,4 +78,20 @@ public class NewsletterController {
         }
 
     }
+
+    public static List<Newsletter> showlatestNewsletters(Context ctx) {
+        List<Newsletter> newsletters = NewsletterRepo.getAllNewsletters(connectionPool);
+
+        if (newsletters == null || newsletters.isEmpty()) {
+            System.out.println("No newsletters found in the database!");
+        } else {
+            System.out.println("Newsletters fetched: " + newsletters.size());
+            newsletters.forEach(System.out::println);
+        }
+
+        ctx.attribute("newsletters", newsletters);
+        ctx.render("archives.html"); // Ensure this is correct
+
+        return newsletters;
+    }
 }

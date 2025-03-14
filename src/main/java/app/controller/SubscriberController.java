@@ -5,26 +5,29 @@ import app.models.Subscriber;
 import app.persistence.ConnectionPool;
 import app.persistence.SubscriberRepo;
 import io.javalin.http.Context;
-import java.time.LocalDate;
+
 
 public class SubscriberController {
 
-    public void signUp(Context ctx, ConnectionPool connectionPool) {
+    private static ConnectionPool connectionPool;
+
+    public SubscriberController(ConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
+    }
+
+
+    public void subscribe(Context ctx) throws DatabaseException {
         String email = ctx.formParam("email");
-
-        if (email == null || email.trim().isEmpty()) {
-            ctx.sessionAttribute("error", "Email er påkrævet.");
-            ctx.redirect("/");
-            return;
-        }
-
-        try {
-            Subscriber subscriber = new Subscriber(email, LocalDate.now());
-            SubscriberRepo.insertNewsletterSignUp(connectionPool, subscriber);
-
-            ctx.sessionAttribute("message", "Tilmelding succesfuld!");
-        } catch (DatabaseException e) {
-            ctx.sessionAttribute("error", "Noget gik galt. Prøv igen.");
+        String message = "";
+        if (email != null) {
+            int result = SubscriberRepo.subscribe(email,connectionPool);
+            if (result == 1) {
+                message = "Tak for din tilmelding";
+            } else if (result == 0) {
+                message = "Tak, men du var allerede tilmeldt";
+            }
+            ctx.attribute("message", message);
+            ctx.render("index.html");
         }
     }
 }

@@ -3,11 +3,14 @@ package app.controller;
 import app.Main;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.models.Newsletter;
 import app.persistence.ConnectionPool;
+import app.persistence.NewsletterRepo;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 public class RoutingController {
@@ -20,7 +23,7 @@ public class RoutingController {
     private static final String DB = "NewsletterDB";
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
-    private static final SubscriberController subscriberController = new SubscriberController();
+    private static final SubscriberController subscriberController = new SubscriberController(connectionPool);
     private static final AdminController adminController = new AdminController(connectionPool);
     private static final NewsletterController newsletterController = new NewsletterController(connectionPool);
 
@@ -41,6 +44,10 @@ public class RoutingController {
 
         // Routing
         app.get("/", ctx -> {
+            List<Newsletter> newsletters = NewsletterRepo.getAllNewsletters(connectionPool);
+
+            ctx.attribute("newsletters", newsletters);
+
             ctx.attribute("message", ctx.sessionAttribute("message"));
             ctx.attribute("error", ctx.sessionAttribute("error"));
 
@@ -53,7 +60,7 @@ public class RoutingController {
 
 
         //API Endpoints
-        app.post("/newsletter/signup", ctx -> subscriberController.signUp(ctx, connectionPool));
+        app.post("/newsletter/signup", ctx -> subscriberController.subscribe(ctx));
         app.post("/admin/signIn", ctx -> adminController.SignInAsAdmin(ctx));
         app.post("/admin/addNewsletter", ctx -> newsletterController.addNewsletter(ctx));
 
@@ -64,9 +71,12 @@ public class RoutingController {
             ctx.render("signIn.html");
         });
 
-        app.get("/archives", ctx -> ctx.render("archives.html"));
+
         app.get("/admin/signIn", ctx -> ctx.redirect("/signIn"));
         app.get("/admin/addNewsletter", ctx -> ctx.render("dashboard.html"));
+
+
+
 
 
     }

@@ -10,17 +10,47 @@
 </head>
 
 <body>
-<div class="header">
+<div class="first-content">
     <div class="image-logo">
-        <img src="../public/images/cph-hvid.webp" th:src="@{/images/cph-hvid.webp}" height="100" alt="Logo"/>
+        <img src="../public/images/cphbusiness-logo-blue.webp" th:src="@{/images/cphbusiness-logo-blue.webp}" height="100" alt="Logo"/>
+    </div>
+
+    <div class="header-text">
+        <p>Uddannelser</p>
+        <p>Kurser</p>
+        <p>Virksomheder</p>
+        <p>Viden</p>
+        <p>Om os</p>
+        <a href="signIn.html" th:href="@{signIn}">
+            <p>Nyhedsbrev</p>
+        </a>
+
     </div>
 
     <div class="buttons-header">
         <a href="signIn.html" th:href="@{signIn}">Login</a>
-
-        <a href="archives.html" th:href="@{archives}">Archives</a>
     </div>
 </div>
+
+<div class="image-background">
+    <img th:src="@{images/young-people-working.jpg}" src="../public/images/young-people-working.jpg">
+
+    <div class="newsletter-signup">
+        <form th:action="@{/newsletter/signup}" method="post">
+            <input type="email" id="email" name="email" th:placeholder="E-mail" placeholder="E-mail" required>
+            <input class="button" type="submit" value="Tilmeld">
+        </form>
+
+        <p th:if="${message}" style="color: green;">[[${message}]]</p>
+        <p th:if="${error}" style="color: red;">[[${error}]]</p>
+    </div>
+</div>
+
+
+
+<a href="archives.html" th:href="@{archives}">
+<h3>View archived newsletters</h3>
+</a>
 
 <h2>Nyhedsbreve - arkiv</h2>
 
@@ -38,18 +68,6 @@
 </div>
 
 
-
-
-<div class="newsletter-signup">
-    <form th:action="@{/newsletter/signup}" method="post">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" required>
-        <input class="button" type="submit" value="Tilmeld">
-    </form>
-
-    <p th:if="${message}" style="color: green;">[[${message}]]</p>
-    <p th:if="${error}" style="color: red;">[[${error}]]</p>
-</div>
 
 
 <footer class="footer">

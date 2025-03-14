@@ -9,24 +9,19 @@ import java.sql.SQLException;
 
 public class SubscriberRepo {
 
-    public static Subscriber insertNewsletterSignUp(ConnectionPool connectionPool, Subscriber subscriber) throws DatabaseException {
+    public static int subscribe(String email, ConnectionPool connectionPool) throws DatabaseException {
 
-        String query = "INSERT INTO subscribers(email, signup_date) VALUES(?,?)";
-
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-                preparedStatement.setString(1, subscriber.getEmail());
-                preparedStatement.setDate(2, Date.valueOf(subscriber.getSignUp_date())); // Convert LocalDate to SQL Date
-
-                int rowsAffected = preparedStatement.executeUpdate();
-                if (rowsAffected == 0) {
-                    throw new DatabaseException("Insert failed, no rows affected");
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException("Could not insert new sign-up " + e);
+        String sql = "INSERT INTO subscribers (email, signup_date) VALUES (?, CURRENT_DATE) ON CONFLICT (email) DO NOTHING";
+        try (
+                Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)
+        ) {
+            ps.setString(1, email);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected;
         }
-        return subscriber;
+        catch (SQLException e) {
+            String msg = "Der er sket en fejl under din tilmelding til nyhedsbrev. Prøv igen";
+            throw new DatabaseException(msg, e.getMessage());
+        }
     }
 }

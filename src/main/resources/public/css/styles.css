@@ -1,14 +1,45 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+}
 
-.header {
-    /* TODO: remove the padding from the top and bottom footer  */
+p{
+    font-size: 16px;
+    font-family: "Rockwell Nova";
+}
+
+
+.first-content {
     width: 100%;
     height: 100px;
-    background-color: #002E6D;
-    border: 2px;
+    position: absolute; /* Make sure it overlays the image */
+    top: 0;
+    left: 0;
+    z-index: 10; /* Keeps it above other elements */
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 20px;
 
+}
+
+.image-background {
+    width: 100%;
+    height: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevents image from overflowing */
+}
+
+.image-background img {
+    width: 100%;
+    height: 100%; /* Ensures it fills the container */
+    object-fit: cover; /* Crops the image to fit nicely */
+    filter: brightness(60%);
 }
 
 .image-logo {
@@ -17,10 +48,18 @@
 
 }
 
+.header-text{
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    color: white;
+}
+
+
 .buttons-header {
     display: flex;
-    gap: 20px;
-    padding-right: 20px;
+    gap: 30px;
+    margin-right: 50px;
 
 }
 
@@ -47,44 +86,20 @@ h1 {
     font-size: 60px;
 }
 
-.main-newsletter {
-    display: flex;
-    justify-content: center;
-    padding-top: 50px;
-}
-
-.main-newsletter-item p {
-    display: flex;
-    justify-content: center;
-    font-size: 30px;
-}
 
 .main-newsletter-item img {
     transition: transform 0.3s ease-in-out;
 }
 
 .main-newsletter-item img:hover {
-    transform: scale(0.95); /* Shrinks to 95% of its original size */
+    transform: scale(0.95);
 }
 
-.secondary-newsletter-items {
-    display: flex;
-    justify-content: space-between;
-    padding: 120px 120px;
-    position: relative;
-    margin-top: -350px; /* Moves the entire section up */
-}
-
-.secondary-newsletter-items p{
-    display: flex;
-    justify-content: center;
-    font-size: 20px;
-}
 
 .secondary-newsletter-items img {
     transition: transform 0.3s ease-in-out;
     position: relative;
-    top: -50%; /* Moves images further up */
+    top: -50%;
 }
 
 .secondary-newsletter-items img:hover {
@@ -120,14 +135,48 @@ input[type=text] {
     gap: 1rem;
 }
 
-.newsletter {
-    width: 100%;
-    max-width: 280px;
-    border:1px solid silver;
-    padding: 10px;
+.newsletter-signup {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Ensures perfect centering */
+    background: rgba(255, 255, 255, 0.8); /* Slight transparency for better visibility */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 10; /* Ensures it's above the image */
+    width: 40%; /* Adjust size */
+}
+
+.newsletter-signup form {
     display: flex;
-    flex-direction: column;
-    justify-content:stretch;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    justify-items: center;
+}
+
+.newsletter-signup input[type="email"] {
+    width: 30%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.newsletter-signup .button {
+    background-color: #FBB040;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-signup .button:hover {
+    background-color: #e09b35;
 }
 
 .teaser {
