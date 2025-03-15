@@ -6,5 +6,28 @@
 </head>
 <body>
 
+
+<p>All newsletters</p>
+
+<form th:action="@{/search}" method="get">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter product name...">
+    <button type="submit">Search</button>
+</form>
+
+<div  th:unless="${newsletters == null}">
+    <div class="newsletter-wrapper">
+        <div class="newsletter" th:each="newsletter : ${newsletters}">
+            <p class="newsletter-title" th:text="${newsletter.title}"></p>
+            <a th:href="@{'/pdf/' + ${newsletter.pdfFileName}}">
+                <img th:src="${'pdf/' + newsletter.thumbnailFileName}"/>
+            </a>
+            <p class="teaser" th:text="${newsletter.teaserText}"></p>
+        </div>
+    </div>
+</div>
+
+
+
+
 </body>
 </html>

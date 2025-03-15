@@ -63,6 +63,7 @@ public class RoutingController {
         app.post("/newsletter/signup", ctx -> subscriberController.subscribe(ctx));
         app.post("/admin/signIn", ctx -> adminController.SignInAsAdmin(ctx));
         app.post("/admin/addNewsletter", ctx -> newsletterController.addNewsletter(ctx));
+        app.get("/search", newsletterController::handleSearch); //Getting newsletter based on search felt TODO: add frontend for functionality
 
         //Web endpoints
         app.get("/signIn", ctx -> {

@@ -72,4 +72,23 @@ public class NewsletterRepo {
         }
     }
 
+    public static List<Newsletter> searchNewsletters(String keyword, ConnectionPool connectionPool) {
+        List<Newsletter> newsletterList = new ArrayList<>();
+        String query = "SELECT * FROM products WHERE LOWER(name) LIKE LOWER(?)";
+
+        try(Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                stmt.setString(1, "%" + keyword + "%");
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    newsletterList.add(new Newsletter(rs.getString("title"), rs.getString("teaser_text"), rs.getString("pdf_file_name"), rs.getString("thumbnail_file_name"), rs.getDate("published").toLocalDate()));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newsletterList;
+    }
+
 }

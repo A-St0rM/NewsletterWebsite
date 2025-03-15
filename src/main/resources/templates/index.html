@@ -21,7 +21,7 @@
         <p>Virksomheder</p>
         <p>Viden</p>
         <p>Om os</p>
-        <a href="signIn.html" th:href="@{signIn}">
+        <a href="archives.html" th:href="@{archives}">
             <p>Nyhedsbrev</p>
         </a>
 
@@ -47,13 +47,6 @@
 </div>
 
 
-
-<a href="archives.html" th:href="@{archives}">
-<h3>View archived newsletters</h3>
-</a>
-
-<h2>Nyhedsbreve - arkiv</h2>
-
 <div  th:unless="${newsletters == null}">
     <div class="newsletter-wrapper">
         <div class="newsletter" th:each="newsletter : ${newsletters}">
@@ -63,7 +56,6 @@
             </a>
             <p class="teaser" th:text="${newsletter.teaserText}"></p>
         </div>
-
     </div>
 </div>
 

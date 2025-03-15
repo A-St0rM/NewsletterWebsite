@@ -90,8 +90,20 @@ public class NewsletterController {
         }
 
         ctx.attribute("newsletters", newsletters);
-        ctx.render("archives.html"); // Ensure this is correct
+        ctx.render("archives.html");
 
         return newsletters;
+    }
+
+
+    public void handleSearch(Context ctx) {
+        String keyword = ctx.queryParam("keyword");
+        if (keyword == null || keyword.isEmpty()) {
+            ctx.status(400).result("Missing search keyword");
+            return;
+        }
+
+        List<Newsletter> results = NewsletterRepo.searchNewsletters(keyword, connectionPool);
+        ctx.json(results);
     }
 }
