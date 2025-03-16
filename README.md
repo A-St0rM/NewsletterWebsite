@@ -35,7 +35,8 @@ Dette projekt er en fuldstack webapplikation til håndtering af nyhedsbreve for 
 - Styling af applikationen
 
 
-![Use Case Diagram](../public/images/UseCase.png)
+<img src="https://github.com/user-attachments/assets/310af1d1-b5ba-4b0e-9154-db2340065f16" alt="image" width="450"/>
+
 
 
 
