@@ -74,11 +74,14 @@ public class NewsletterRepo {
 
     public static List<Newsletter> searchNewsletters(String keyword, ConnectionPool connectionPool) {
         List<Newsletter> newsletterList = new ArrayList<>();
-        String query = "SELECT * FROM products WHERE LOWER(name) LIKE LOWER(?)";
+        String query = "SELECT * FROM newsletters WHERE title ILIKE ? OR teaser_text ILIKE ?;";
 
         try(Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                // Indsætter søgeordet korrekt med % for wildcard-søgning
                 stmt.setString(1, "%" + keyword + "%");
+                stmt.setString(2, "%" + keyword + "%");
+
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {

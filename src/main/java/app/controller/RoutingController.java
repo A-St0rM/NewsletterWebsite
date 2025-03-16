@@ -34,8 +34,8 @@ public class RoutingController {
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
             config.staticFiles.add(staticFiles -> {
-                staticFiles.hostedPath = "/pdf";   // Serve at http://localhost:7000/files
-                staticFiles.directory = "pdf";    // Serve from "files" folder in working directory
+                staticFiles.hostedPath = "/pdf";
+                staticFiles.directory = "pdf";
                 staticFiles.location = Location.EXTERNAL; // Load from outside the JAR
             });
             config.jetty.modifyServletContextHandler(handler -> handler.setSessionHandler(SessionConfig.sessionConfig()));
@@ -51,7 +51,7 @@ public class RoutingController {
             ctx.attribute("message", ctx.sessionAttribute("message"));
             ctx.attribute("error", ctx.sessionAttribute("error"));
 
-            // Fjern session attributes efter brug
+
             ctx.sessionAttribute("message", null);
             ctx.sessionAttribute("error", null);
 
@@ -64,6 +64,7 @@ public class RoutingController {
         app.post("/admin/signIn", ctx -> adminController.SignInAsAdmin(ctx));
         app.post("/admin/addNewsletter", ctx -> newsletterController.addNewsletter(ctx));
         app.get("/search", newsletterController::handleSearch); //Getting newsletter based on search felt TODO: add frontend for functionality
+        app.post("/allArchives", ctx -> newsletterController.showlatestnewsletters(ctx));
 
         //Web endpoints
         app.get("/signIn", ctx -> {
@@ -75,10 +76,11 @@ public class RoutingController {
 
         app.get("/admin/signIn", ctx -> ctx.redirect("/signIn"));
         app.get("/admin/addNewsletter", ctx -> ctx.render("dashboard.html"));
-
-
-
-
+        app.get("/archives", ctx ->{
+            List<Newsletter> AllNewsletters = newsletterController.showlatestnewsletters(ctx);
+            ctx.attribute("newsletters", AllNewsletters);
+            ctx.render("archives.html");
+        });
 
     }
 

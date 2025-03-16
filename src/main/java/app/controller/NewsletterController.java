@@ -79,31 +79,26 @@ public class NewsletterController {
 
     }
 
-    public static List<Newsletter> showlatestNewsletters(Context ctx) {
+    public List<Newsletter> showlatestnewsletters(Context ctx) {
         List<Newsletter> newsletters = NewsletterRepo.getAllNewsletters(connectionPool);
-
-        if (newsletters == null || newsletters.isEmpty()) {
-            System.out.println("No newsletters found in the database!");
-        } else {
-            System.out.println("Newsletters fetched: " + newsletters.size());
-            newsletters.forEach(System.out::println);
-        }
-
         ctx.attribute("newsletters", newsletters);
-        ctx.render("archives.html");
-
         return newsletters;
     }
 
 
     public void handleSearch(Context ctx) {
         String keyword = ctx.queryParam("keyword");
-        if (keyword == null || keyword.isEmpty()) {
-            ctx.status(400).result("Missing search keyword");
-            return;
+
+        List<Newsletter> results;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            results = NewsletterRepo.getAllNewsletters(connectionPool); // Hent alle nyhedsbreve
+        } else {
+            results = NewsletterRepo.searchNewsletters(keyword, connectionPool); // Filtrerede resultater
         }
 
-        List<Newsletter> results = NewsletterRepo.searchNewsletters(keyword, connectionPool);
-        ctx.json(results);
+        ctx.attribute("newsletters", results);
+        ctx.attribute("keyword", keyword);
+        ctx.render("archives.html");
     }
+
 }
