@@ -82,6 +82,7 @@ public class RoutingController {
             ctx.render("archives.html");
         });
 
+
     }
 
 }

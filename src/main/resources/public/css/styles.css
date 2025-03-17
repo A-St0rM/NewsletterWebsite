@@ -87,25 +87,6 @@ h1 {
 }
 
 
-.main-newsletter-item img {
-    transition: transform 0.3s ease-in-out;
-}
-
-.main-newsletter-item img:hover {
-    transform: scale(0.95);
-}
-
-
-.secondary-newsletter-items img {
-    transition: transform 0.3s ease-in-out;
-    position: relative;
-    top: -50%;
-}
-
-.secondary-newsletter-items img:hover {
-    transform: scale(0.95);
-}
-
 
 input[type=text] {
     width: 20%;
